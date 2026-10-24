@@ -7,13 +7,13 @@ public class MaterialBibliografico {
     private String titulo;
     private int anio;
     private boolean disponible;
-   private String Imagen;
+   private String rutaImagen;
     
      public MaterialBibliografico(String codigo, String titulo, int anio, String Imagen) {
         this.codigo = codigo;
         this.titulo = titulo;
         this.anio = anio;
-        this. Imagen = Imagen;
+        this. rutaImagen = Imagen;
         this.disponible = true;
     }
 
@@ -49,12 +49,12 @@ public class MaterialBibliografico {
         this.disponible = disponible;
     }
 
-    public String getImagen() {
-        return Imagen;
+    public String getRutaImagen() {
+        return rutaImagen;
     }
 
-    public void setImagen(String Imagen) {
-        this.Imagen = Imagen;
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
      // metodos
     public int getPlazoDias() {
