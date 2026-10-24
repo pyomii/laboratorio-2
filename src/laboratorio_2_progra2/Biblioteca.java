@@ -1,7 +1,9 @@
 package laboratorio_2_progra2;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.ImageIcon;
 
 public class Biblioteca {
 
@@ -150,5 +152,28 @@ public class Biblioteca {
         int mes = fecha.get(Calendar.MONTH) + 1; 
         int anio = fecha.get(Calendar.YEAR);
         return String.format("%02d/%02d/%d", dia, mes, anio);
+    }
+    
+    public String Recibo(Prestamo p) {
+        MaterialBibliografico m = p.getMaterial();
+        String recibo= "";
+        if (p.isActivo()) {
+            recibo+= "===== RECIBO DE PRESTAMO =====\n\n";
+        } else {
+            recibo+= "===== RECIBO DE DEVOLUCION =====\n\n";
+        }
+        recibo+= "Tipo: " + m.getTipo() + "\n";
+        recibo+= "Codigo: " + m.getCodigo() + "\n";
+        recibo+= "Titulo: " + m.getTitulo() + "\n";
+        recibo+= "Detalle: " + m.toString() + "\n\n";
+        recibo+= "Fecha de prestamo: " + fecha(p.getFechaPrestamo()) + "\n";
+        recibo+= "Fecha prevista de devolucion: " + fecha(p.getFechaPrevista()) + "\n";
+        if (!p.isActivo()) {
+            recibo+= "Fecha de devolucion: " + fecha(p.getFechaDevolucion()) + "\n";
+            recibo+= "Dias de retraso: " + p.getDiasRetraso() + "\n";
+            recibo+= "Multa: " + p.getMulta() + " EUR\n";
+        }
+        recibo += "Estado: " + p.getEstado() + "\n";
+        return recibo;
     }
 }
