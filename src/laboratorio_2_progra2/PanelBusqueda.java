@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package laboratorio_2_progra2;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author syg
@@ -14,8 +14,11 @@ public class PanelBusqueda extends javax.swing.JPanel {
     /**
      * Creates new form PanelBusqueda
      */
-    public PanelBusqueda() {
+    private Biblioteca biblioteca;
+
+    public PanelBusqueda(Biblioteca biblioteca) {
         initComponents();
+        this.biblioteca = biblioteca;
     }
 
     /**
@@ -27,19 +30,101 @@ public class PanelBusqueda extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblTitulo = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtResultado = new javax.swing.JTextArea();
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTitulo.setText("Búsqueda por código");
+
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        txtResultado.setEditable(false);
+        txtResultado.setColumns(20);
+        txtResultado.setLineWrap(true);
+        txtResultado.setRows(5);
+        txtResultado.setText("Resultado aquí");
+        txtResultado.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtResultado);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscar)
+                    .addComponent(lblTitulo)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(98, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buscar(){
+    String codigo = txtCodigo.getText().trim();
+        if(codigo.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Escriba un codigo para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    MaterialBibliografico m = biblioteca.consultar(codigo);
+        if(m==null){
+            txtResultado.setText(biblioteca.getMensaje());
+        }else{
+            String disponible = "No";
+        if(m.isDisponible()){
+            disponible = "Si";
+        }
+        txtResultado.setText("Material encontrado\n"
+                +"Tipo: "+m.getTipo()+"\n"
+                +m.toString()+"\n"
+                +"Disponible: "+disponible);
+        }
+    }    
+    
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        buscar();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+        buscar();
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextArea txtResultado;
     // End of variables declaration//GEN-END:variables
 }
