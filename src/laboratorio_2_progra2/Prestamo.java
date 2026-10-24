@@ -18,6 +18,7 @@ public class Prestamo {
         this.fechaPrestamo= fecha(Calendar.getInstance());
         this.fechaPrevista= fecha(Calendar.getInstance());
         this.fechaPrevista.setTime(fechaPrestamo.getTime());
+        this.fechaPrevista.add(Calendar.DAY_OF_MONTH, material.getPlazoDias());
         this.fechaDevolucion= null;
         this.estado= activo;
         this.diasRetraso= 0;
