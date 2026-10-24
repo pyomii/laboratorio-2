@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel ;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
+
 // atrbutos
     
  private Biblioteca biblioteca;
@@ -14,15 +15,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private DefaultTableModel modelo;  
     // constructor
     
-    public VentanaPrincipal() {
-       initComponents();
+       public VentanaPrincipal() {
+        initComponents();
         biblioteca = new Biblioteca();
         RutaImagen = "";
         configurarTabla();
         jTabbedPane1.addTab("Búsqueda", new PanelBusqueda());
-        jTabbedPane1.addTab("Préstamos", new PanelPrestamos());
-        jTabbedPane1.addTab("Devoluciones", new PanelDevoluciones());
+        jTabbedPane1.addTab("Préstamos", new PanelPrestamos(biblioteca));
+        jTabbedPane1.addTab("Devoluciones", new PanelDevoluciones(biblioteca));
     }
+   
    // configuracion de tabla
     private void configurarTabla() {
         modelo = new DefaultTableModel(
