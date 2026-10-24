@@ -14,7 +14,7 @@ public class Prestamo {
     private double multa;
     
     public Prestamo(MaterialBibliografico material) {
-<<<<<<< HEAD
+
         this(material, Calendar.getInstance());
     }
     
@@ -28,7 +28,7 @@ public class Prestamo {
         this.estado = activo;
         this.diasRetraso = 0;
         this.multa = 0;
-=======
+
         this.material= material;
         this.fechaPrestamo= fecha(Calendar.getInstance());
         this.fechaPrevista= fecha(Calendar.getInstance());
@@ -38,7 +38,7 @@ public class Prestamo {
         this.estado= activo;
         this.diasRetraso= 0;
         this.multa= 0;
->>>>>>> adb1f3704362752a8e3ed821d6902f8411cb1cbe
+
     }
     
     public int diasRetraso(Calendar fechaAct) {

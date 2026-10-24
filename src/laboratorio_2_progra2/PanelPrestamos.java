@@ -7,7 +7,8 @@ import javax.swing.ImageIcon;
 
 public class PanelPrestamos extends javax.swing.JPanel {
     
-    
+   private Biblioteca biblioteca;
+private VentanaPrincipal ventana; 
     public PanelPrestamos(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
         initComponents();
@@ -27,7 +28,7 @@ public class PanelPrestamos extends javax.swing.JPanel {
         imagen1.setIcon(new ImageIcon(img));
     }
     
-    private Biblioteca biblioteca;
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -130,8 +131,7 @@ public class PanelPrestamos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
-        if (codigo.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Error! todas las casillas deben estar llenadas...", "Error", JOptionPane.ERROR_MESSAGE);
+     if (codigo.getText().trim().isEmpty()) {            JOptionPane.showMessageDialog(this, "Error! todas las casillas deben estar llenadas...", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         biblioteca.consultar(codigo.getText());
@@ -144,9 +144,10 @@ public class PanelPrestamos extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, biblioteca.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             recibo.setText(biblioteca.Recibo(p));
-            mostrarImagen(p.getMaterial().getImagen());
+           mostrarImagen(p.getMaterial().getRutaImagen());
             JOptionPane.showMessageDialog(this, biblioteca.getMensaje());
             codigo.setText("");
+            ventana.actualizarTabla();
         }
     }//GEN-LAST:event_btn_PrestarActionPerformed
 

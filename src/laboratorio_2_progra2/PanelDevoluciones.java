@@ -8,13 +8,13 @@ import javax.swing.ImageIcon;
 public class PanelDevoluciones extends javax.swing.JPanel {
 
     private Biblioteca biblioteca;
-    
-    public PanelDevoluciones(Biblioteca biblioteca) {
-        this.biblioteca = biblioteca;
-        initComponents();
-        recibo.setEditable(false);
-        imagen.setText("Sin imagen");
-    }
+private VentanaPrincipal ventana;
+
+public PanelDevoluciones(Biblioteca biblioteca, VentanaPrincipal ventana) {
+    initComponents();
+    this.biblioteca = biblioteca;
+    this.ventana = ventana;
+}
 
     private void mostrarImagen(String ruta) {
         imagen.setIcon(null);
@@ -111,7 +111,7 @@ public class PanelDevoluciones extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, biblioteca.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             recibo.setText(biblioteca.Recibo(p));
-            mostrarImagen(p.getMaterial().getImagen());
+            mostrarImagen(p.getMaterial().getRutaImagen());
             JOptionPane.showMessageDialog(this, biblioteca.getMensaje());
             codigo.setText("");
         }

@@ -20,9 +20,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         biblioteca = new Biblioteca();
         RutaImagen = "";
         configurarTabla();
-        jTabbedPane1.addTab("Búsqueda", new PanelBusqueda());
+        jTabbedPane1.addTab("Búsqueda", new PanelBusqueda(biblioteca));
         jTabbedPane1.addTab("Préstamos", new PanelPrestamos(biblioteca));
-        jTabbedPane1.addTab("Devoluciones", new PanelDevoluciones(biblioteca));
+        jTabbedPane1.addTab("Devoluciones", new PanelDevoluciones(biblioteca , this));
     }
    
    // configuracion de tabla
