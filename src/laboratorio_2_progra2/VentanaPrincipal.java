@@ -4,11 +4,12 @@ package laboratorio_2_progra2;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+   private Biblioteca biblioteca;
    
     public VentanaPrincipal() {
         initComponents();
     jTabbedPane1.addTab("Búsqueda", new PanelBusqueda());
-    jTabbedPane1.addTab("Préstamos", new PanelPrestamos());
+    jTabbedPane1.addTab("Préstamos", new PanelPrestamos(biblioteca));
     jTabbedPane1.addTab("Devoluciones", new PanelDevoluciones());
     }
 
