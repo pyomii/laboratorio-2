@@ -24,4 +24,7 @@ public class Libro extends MaterialBibliografico {
     public String getTipo () {
         return "Libro" ;
     }
+    public String toString () {
+        return super.toString() + ", Autor: " + autor ;
+    }
 }

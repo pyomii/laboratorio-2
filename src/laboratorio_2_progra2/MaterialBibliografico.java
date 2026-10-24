@@ -72,4 +72,8 @@ public class MaterialBibliografico {
         return getMultaDiaria() * diasRetraso ;
     }
     
+     @Override
+    public String  toString () {
+        return "Codigo: " + codigo + ", Titulo: " + titulo + ", Año: " + anio ;
+    }
 }
