@@ -9,13 +9,11 @@ public class PanelPrestamos extends javax.swing.JPanel {
     
    private Biblioteca biblioteca;
 private VentanaPrincipal ventana; 
-    public PanelPrestamos(Biblioteca biblioteca) {
-        this.biblioteca = biblioteca;
-        initComponents();
-        recibo.setEditable(false);
-        imagen1.setText("Sin imagen");
-    }
-    
+    public PanelPrestamos(Biblioteca biblioteca, VentanaPrincipal ventana) {
+    initComponents();
+    this.biblioteca = biblioteca;
+    this.ventana = ventana;
+}    
     private void mostrarImagen(String ruta) {
         imagen1.setIcon(null);
         imagen1.setText("Sin imagen");
