@@ -28,6 +28,6 @@ public class Tesis extends MaterialBibliografico{
         return super.toString()+" ,Autor: "+autor;
     }
      public String getTipo() {
-        return "Revista" ;
+        return "Tesis" ;
      }
 }
