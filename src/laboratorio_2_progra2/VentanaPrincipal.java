@@ -69,6 +69,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         public Biblioteca getBiblioteca() {
         return biblioteca;
     }
+     
+
+    // Deja el formulario vacío 
+    private void limpiarCampos() {
+        cmbTipo.setSelectedIndex(0);
+        txtCodigo.setText("");
+        txtTitulo2.setText("");
+        txtAnio.setText("");
+        txtTipo.setText("");
+        RutaImagen = "";
+        lblImagen.setIcon(null);
+        lblImagen.setText("Sin imagen");
+    }
 
 
     
@@ -115,8 +128,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel9.setText("Imagen");
 
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel7.setText("Titulo");
@@ -295,8 +318,68 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         RutaImagen = selectorImagen.getSelectedFile().getAbsolutePath();
         lblImagen.setText("");
         lblImagen.setIcon(crearIcono(RutaImagen, 60));
-    }//GEN-LAST:event_btnImagenActionPerformed
     }
+    }//GEN-LAST:event_btnImagenActionPerformed
+ // boton registrar
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // TODO add your handling code here:
+        String tipo = cmbTipo.getSelectedItem().toString();
+    String codigo = txtCodigo.getText().trim();
+    String titulo = txtTitulo2.getText().trim();
+    String especifico = txtTipo.getText().trim();
+    String textoAnio = txtAnio.getText().trim();
+
+    if (codigo.isEmpty() || titulo.isEmpty() || especifico.isEmpty() || textoAnio.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.",
+                "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    if (RutaImagen.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Elija una imagen para el material",
+                "Falta imagen", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    int anio;
+    try {
+        anio = Integer.parseInt(textoAnio);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El año debe ser un número",
+                "Año inválido", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    MaterialBibliografico material;
+    if (tipo.equals("Libro")) {
+        material = new Libro(codigo, titulo, anio, RutaImagen, especifico);
+    } else if (tipo.equals("Revista")) {
+        int edicion;
+        try {
+            edicion = Integer.parseInt(especifico);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El número de edición debe ser un número.",
+                    "Edición inválida", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        material = new Revista(codigo, titulo, anio, RutaImagen, edicion);
+    } else {
+        material = new Tesis(codigo, titulo, anio, RutaImagen, especifico);
+    }
+
+    if (biblioteca.registrar(material)) {
+        JOptionPane.showMessageDialog(this, biblioteca.getMensaje());
+        actualizarTabla();
+        limpiarCampos();
+    } else {
+        JOptionPane.showMessageDialog(this, biblioteca.getMensaje(),
+                "No se pudo registrar", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+       limpiarCampos() ;
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+    
  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
