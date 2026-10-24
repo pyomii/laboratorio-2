@@ -25,18 +25,18 @@ public class Biblioteca {
             return false;
         }
         String codigo= material.getCodigo();
-        if (codigo== null || codigo.isBlank()) {
+         if (codigo == null || codigo.trim().isEmpty()) {
             mensaje= "Error! todas las casillas deben estar llenadas...";
             return false;
         }
         String titulo= material.getTitulo();
-        if (titulo== null || titulo.isBlank()) {
+        if (titulo == null || titulo.trim().isEmpty()) {
             mensaje= "Error! todas las casillas deben estar llenadas...";
             return false;
         }
         int anioActual= Calendar.getInstance().get(Calendar.YEAR);
         if (material.getAnio() < 1000 || material.getAnio() > anioActual) {
-            mensaje= "El año debe estar entre 1000 y 2026...";
+           mensaje = "El año debe estar entre 1000 y " + anioActual + "...";
             return false;
         }
         if (buscarCodigo(codigo, 0)!= null) {
@@ -52,7 +52,7 @@ public class Biblioteca {
         if (codigo == null || indice >= materiales.size()) {
         return null;
         }
-        if (materiales.get(indice).getCodigo().equalsIgnoreCase(codigo.strip())) {
+        if (materiales.get(indice).getCodigo().equalsIgnoreCase(codigo.trim())) {
             return materiales.get(indice);
         }
         return buscarCodigo(codigo, indice + 1);
@@ -74,7 +74,7 @@ public class Biblioteca {
             mensaje= "No existe un material con el codigo " + codigo + "...";
             return null;
         }
-        if (!material.isDisponible()) {
+      if (material.isDisponible() == false) {
             mensaje = "\"" + material.getTitulo() + "\" no esta disponible...";
             return null;
         }
@@ -100,8 +100,9 @@ public class Biblioteca {
             mensaje= "El material \"" + material.getTitulo() + "\" no tiene un prestamo activo.";
             return null;
         }
-        prestamo.Devolucion(fechaReal);
-        mensaje= "Devolucion registrada \n Dias de retraso: " + prestamo.getDiasRetraso() + "\n Multa: " + prestamo.getMulta() + " Lps.";
+         prestamo.registrarDevolucion(fechaReal);
+        mensaje = "Devolucion registrada \nDias de retraso: " + prestamo.getDiasRetraso()
+                + "\nMulta: " + String.format("%.2f", prestamo.getMulta()) + " €";
         return prestamo;
     }
 

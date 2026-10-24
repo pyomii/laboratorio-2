@@ -12,16 +12,21 @@ public class Prestamo {
     private String estado;
     private int diasRetraso;
     private double multa;
-
+    
     public Prestamo(MaterialBibliografico material) {
-        this.material= material;
-        this.fechaPrestamo= fecha(Calendar.getInstance());
-        this.fechaPrevista= fecha(Calendar.getInstance());
-        this.fechaPrevista.setTime(fechaPrestamo.getTime());
-        this.fechaDevolucion= null;
-        this.estado= activo;
-        this.diasRetraso= 0;
-        this.multa= 0;
+        this(material, Calendar.getInstance());
+    }
+    
+   public Prestamo(MaterialBibliografico material, Calendar inicio) {
+        this.material = material;
+        this.fechaPrestamo = fecha(inicio);
+        this.fechaPrevista = fecha(inicio);
+      
+        this.fechaPrevista.add(Calendar.DAY_OF_MONTH, material.getPlazoDias());
+        this.fechaDevolucion = null;
+        this.estado = activo;
+        this.diasRetraso = 0;
+        this.multa = 0;
     }
     
     public int diasRetraso(Calendar fechaAct) {
@@ -39,12 +44,13 @@ public class Prestamo {
         return dias;
     }
 
-    public boolean Devolucion() {
-        return Devolucion(Calendar.getInstance());
+    public boolean registrarDevolucion() {
+        return registrarDevolucion(Calendar.getInstance());
     }
 
-    public boolean Devolucion(Calendar fechaAct) {
-        if (!isActivo()) {
+
+    public boolean registrarDevolucion(Calendar fechaAct) {
+       if (isActivo() == false) {
             return false;
         }
         this.fechaDevolucion= fecha(fechaAct);
