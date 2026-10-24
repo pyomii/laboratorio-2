@@ -1,6 +1,154 @@
-
 package laboratorio_2_progra2;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 public class Biblioteca {
+
+    private ArrayList<MaterialBibliografico> materiales;
+    private ArrayList<Prestamo> prestamos;
+    private String mensaje;
+
+    public Biblioteca() {
+        materiales= new ArrayList<MaterialBibliografico>();
+        prestamos= new ArrayList<Prestamo>();
+        mensaje= "";
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public boolean registrar(MaterialBibliografico material) {
+        if (material== null) {
+            mensaje= "Error! todas las casillas deben estar llenadas...";
+            return false;
+        }
+        String codigo= material.getCodigo();
+        if (codigo== null || codigo.isBlank()) {
+            mensaje= "Error! todas las casillas deben estar llenadas...";
+            return false;
+        }
+        String titulo= material.getTitulo();
+        if (titulo== null || titulo.isBlank()) {
+            mensaje= "Error! todas las casillas deben estar llenadas...";
+            return false;
+        }
+        int anioActual= Calendar.getInstance().get(Calendar.YEAR);
+        if (material.getAnio() < 1000 || material.getAnio() > anioActual) {
+            mensaje= "El año debe estar entre 1000 y 2026...";
+            return false;
+        }
+        if (buscarCodigo(codigo, 0)!= null) {
+            mensaje= "Ya existe un material con el codigo " + codigo + "...";
+            return false;
+        }
+        materiales.add(material);
+        mensaje= "Material registrado correctamente...";
+        return true;
+    }
+
+    public MaterialBibliografico buscarCodigo(String codigo, int indice) {
+        if (codigo == null || indice >= materiales.size()) {
+        return null;
+        }
+        if (materiales.get(indice).getCodigo().equalsIgnoreCase(codigo.strip())) {
+            return materiales.get(indice);
+        }
+        return buscarCodigo(codigo, indice + 1);
+    }
+
+    public MaterialBibliografico consultar(String codigo) {
+        MaterialBibliografico m= buscarCodigo(codigo, 0);
+        if (m== null) {
+            mensaje= "El codigo " + codigo + " no se encuentra registrado...";
+        } else {
+            mensaje= "Material encontrado: " + m.toString();
+        }
+        return m;
+    }
+
+    public Prestamo prestar(String codigo) {
+        MaterialBibliografico material = buscarCodigo(codigo, 0);
+        if (material== null) {
+            mensaje= "No existe un material con el codigo " + codigo + "...";
+            return null;
+        }
+        if (!material.isDisponible()) {
+            mensaje = "\"" + material.getTitulo() + "\" no esta disponible...";
+            return null;
+        }
+        Prestamo prestamo= new Prestamo(material);
+        material.setDisponible(false);
+        prestamos.add(prestamo);
+        mensaje= "Prestamo registrado \nFecha prevista de devolucion: " + fecha(prestamo.getFechaPrevista());
+        return prestamo;
+    }
+
+    public Prestamo devolver(String codigo) {
+        return devolver(codigo, Calendar.getInstance());
+    }
     
+    public Prestamo devolver(String codigo, Calendar fechaReal) {
+        MaterialBibliografico material = buscarCodigo(codigo, 0);
+        if (material== null) {
+            mensaje= "No existe un material con el codigo " + codigo + ".";
+            return null;
+        }
+        Prestamo prestamo = buscarPrestamoActivo(material);
+        if (prestamo== null) {
+            mensaje= "El material \"" + material.getTitulo() + "\" no tiene un prestamo activo.";
+            return null;
+        }
+        prestamo.Devolucion(fechaReal);
+        mensaje= "Devolucion registrada \n Dias de retraso: " + prestamo.getDiasRetraso() + "\n Multa: " + prestamo.getMulta() + " Lps.";
+        return prestamo;
+    }
+
+    public Prestamo buscarPrestamoActivo(MaterialBibliografico material) {
+        for (Prestamo p : prestamos) {
+            if (p.getMaterial()== material && p.isActivo()) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<MaterialBibliografico> getMateriales() {
+        return materiales;
+    }
+
+    public ArrayList<Prestamo> getPrestamos() {
+        return prestamos;
+    }
+
+    public ArrayList<MaterialBibliografico> getMaterialesDisp() {
+        ArrayList<MaterialBibliografico> disponibles= new ArrayList<MaterialBibliografico>();
+        for (MaterialBibliografico m : materiales) {
+            if (m.isDisponible()) {
+                disponibles.add(m);
+            }
+        }
+        return disponibles;
+    }
+
+    public ArrayList<MaterialBibliografico> getMaterialesActivo() {
+        ArrayList<MaterialBibliografico> activos= new ArrayList<MaterialBibliografico>();
+        for (Prestamo p : prestamos) {
+            if (p.isActivo()) {
+                activos.add(p.getMaterial());
+            }
+        }
+        return activos;
+    }
+
+    private String fecha(Calendar fecha) {
+        if (fecha== null) {
+            return "...";
+        }
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int mes = fecha.get(Calendar.MONTH) + 1; 
+        int anio = fecha.get(Calendar.YEAR);
+        return String.format("%02d/%02d/%d", dia, mes, anio);
+    }
 }
