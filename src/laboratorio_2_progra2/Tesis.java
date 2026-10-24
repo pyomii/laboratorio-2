@@ -27,4 +27,7 @@ public class Tesis extends MaterialBibliografico{
     public String toString(){
         return super.toString()+" ,Autor: "+autor;
     }
+     public String getTipo() {
+        return "Revista" ;
+     }
 }

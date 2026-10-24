@@ -27,4 +27,7 @@ public class Revista extends MaterialBibliografico{
     public String toString(){
         return super.toString()+" , Edicion: "+numEdicion;
     }
+    public String getTipo() {
+        return "Revista" ;
+    }
 }
